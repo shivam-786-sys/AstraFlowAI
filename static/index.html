@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraFlow — Full-Stack Agent Dashboard</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon"></div>
+                <div class="brand-text">
+                    <h1>AstraFlow</h1>
+                    <small>Offline Multi-Agent Core</small>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <span class="icon">⊞</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-tab="chat-agents">
+                    <span class="icon">💬</span> Multi-Agent Chat
+                </a>
+                <a href="#" class="nav-item" data-tab="calendar">
+                    <span class="icon">📅</span> Timelines & Calendar
+                </a>
+                <a href="#" class="nav-item" data-tab="diagnostics">
+                    <span class="icon">🛡️</span> Security & Logs
+                </a>
+            </nav>
+            
+            <div class="system-status-badge">
+                <div class="status-pulse"></div>
+                <div class="status-info">
+                    <p>SYSTEM OFFLINE</p>
+                    <small id="server-db-status">Checking Database...</small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Body -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h2 id="current-tab-title">AstraFlow Command Dashboard</h2>
+                    <p id="current-tab-desc">High-fidelity multi-agent orchestration and local schedule synthesis.</p>
+                </div>
+                <div class="top-actions">
+                    <button id="clear-calendar-btn" class="btn btn-secondary">Clear Database</button>
+                    <div class="user-profile">
+                        <div class="avatar">AF</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab Content: Dashboard -->
+            <div id="tab-dashboard" class="tab-pane active">
+                <div class="dashboard-grid">
+                    <!-- Stat Cards -->
+                    <div class="stat-card">
+                        <div class="stat-label">Active Agents</div>
+                        <div class="stat-value">4</div>
+                        <div class="stat-desc">Planner, Optimizer, Exam, Scheduler</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Local MCP Tools</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-desc">Schedule, Prioritize, Cards</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Scheduled Slots</div>
+                        <div class="stat-value" id="stats-event-count">0</div>
+                        <div class="stat-desc">Time blocks persisted locally</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Security Shield</div>
+                        <div class="stat-value text-success">ACTIVE</div>
+                        <div class="stat-desc">Workspace validation & safe CLI</div>
+                    </div>
+
+                    <!-- Flow Visualizer -->
+                    <div class="card col-span-3 visualizer-card">
+                        <div class="card-header">
+                            <h3>ADK Multi-Agent Graph Compilation</h3>
+                            <span class="badge badge-purple">Interactive Graph</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="graph-container">
+                                <div class="graph-node" id="node-START">
+                                    <div class="node-icon">▶</div>
+                                    <div class="node-label">START</div>
+                                    <small>Input Entry</small>
+                                </div>
+                                <div class="graph-arrow">➔</div>
+                                <div class="graph-node" id="node-PlannerAgent">
+                                    <div class="node-icon">🧠</div>
+                                    <div class="node-label">PlannerAgent</div>
+                                    <small>Orchestration</small>
+                                </div>
+                                <div class="graph-arrow">➔</div>
+                                <div class="graph-node" id="node-TaskOptimizationAgent">
+                                    <div class="node-icon">⚖</div>
+                                    <div class="node-label">TaskOptimizer</div>
+                                    <small> Eisenhower </small>
+                                </div>
+                                <div class="graph-arrow">➔</div>
+                                <div class="graph-node" id="node-ExamStudyAgent">
+                                    <div class="node-icon">📖</div>
+                                    <div class="node-label">ExamStudy</div>
+                                    <small>Active Recall</small>
+                                </div>
+                                <div class="graph-arrow">➔</div>
+                                <div class="graph-node" id="node-LifeSchedulerAgent">
+                                    <div class="node-icon">🕒</div>
+                                    <div class="node-label">LifeScheduler</div>
+                                    <small>Conflict Check</small>
+                                </div>
+                                <div class="graph-arrow">➔</div>
+                                <div class="graph-node" id="node-END">
+                                    <div class="node-icon">■</div>
+                                    <div class="node-label">END</div>
+                                    <small>Final State</small>
+                                </div>
+                            </div>
+                            <div class="graph-legend">
+                                <span class="legend-item"><span class="dot dot-idle"></span> Idle</span>
+                                <span class="legend-item"><span class="dot dot-running"></span> Running</span>
+                                <span class="legend-item"><span class="dot dot-completed"></span> Completed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Prompt -->
+                    <div class="card col-span-1 border-glow">
+                        <div class="card-header">
+                            <h3>Quick Orchestration</h3>
+                        </div>
+                        <div class="card-body flex-col">
+                            <p class="text-secondary small">Input your schedule criteria to execute the offline ADK Multi-Agent system:</p>
+                            <div class="sample-prompts">
+                                <button class="sample-prompt-btn">I have a chemistry exam next Friday, block out organic equations study sessions and schedule my gym slots.</button>
+                                <button class="sample-prompt-btn">Prioritize my biology quiz preparation, build active recall decks, and schedule gym workout hours.</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Multi-Agent Chat -->
+            <div id="tab-chat-agents" class="tab-pane">
+                <div class="chat-container-layout">
+                    <!-- Chat panel -->
+                    <div class="card chat-panel-card">
+                        <div class="chat-header">
+                            <div class="agent-avatar-stack">
+                                <span class="avatar-stack-item p-agent">P</span>
+                                <span class="avatar-stack-item o-agent">T</span>
+                                <span class="avatar-stack-item e-agent">E</span>
+                                <span class="avatar-stack-item l-agent">L</span>
+                            </div>
+                            <div>
+                                <h4>Multi-Agent Command Interface</h4>
+                                <small class="text-secondary">Simulated ADK Workflow Execution Loop</small>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages-container">
+                            <div class="system-message">
+                                Welcome to AstraFlow. Enter a request in the field below to launch the offline ADK Multi-Agent planner simulation.
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <form id="chat-submit-form">
+                                <input type="text" id="chat-user-input" placeholder="Type schedule objectives... e.g., 'Chemistry Exam on Tuesday, gym slots on Mon/Wed'" required autocomplete="off">
+                                <button type="submit" id="chat-send-btn" class="btn btn-primary">Launch Agent Workflow</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Execution Details and logs -->
+                    <div class="card logs-panel-card">
+                        <div class="card-header">
+                            <h3>Real-time Compilation Logs</h3>
+                        </div>
+                        <div class="card-body log-container" id="real-time-logs-container">
+                            <div class="log-entry log-system">System idling. Awaiting workflow invocation...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Calendar and Timeline -->
+            <div id="tab-calendar" class="tab-pane">
+                <div class="calendar-layout-container">
+                    <div class="card calendar-card">
+                        <div class="card-header calendar-header">
+                            <h3>Integrated Balanced Calendar</h3>
+                            <div class="calendar-actions">
+                                <button id="export-ics-btn" class="btn btn-primary">⇩ Export ICS File</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="export-success-banner" class="alert alert-success hidden">
+                                <strong>Calendar Exported!</strong> Download your ICS file here: <a href="#" id="download-ics-link" class="text-underline">Download calendar.ics</a>
+                            </div>
+                            <div class="calendar-grid-header">
+                                <div class="grid-col-label">Category</div>
+                                <div class="grid-col-label">Activity & Title</div>
+                                <div class="grid-col-label">Start Date & Time</div>
+                                <div class="grid-col-label">End Date & Time</div>
+                                <div class="grid-col-label">Description</div>
+                            </div>
+                            <div class="calendar-grid-rows" id="calendar-events-rows">
+                                <div class="empty-state">No events scheduled. Run a chat request or create events.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card side-flashcards-card">
+                        <div class="card-header">
+                            <h3>Generated Flashcards</h3>
+                        </div>
+                        <div class="card-body flashcards-container" id="generated-flashcards-box">
+                            <div class="empty-state">No study cards generated yet. Run study workflow tasks.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Diagnostics & Security -->
+            <div id="tab-diagnostics" class="tab-pane">
+                <div class="diagnostics-layout">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>System Security Parameters</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="security-rules-list">
+                                <div class="security-rule-item">
+                                    <div class="rule-title">Path Bounds Enforcement</div>
+                                    <div class="rule-desc">Verifies that all exported ICS and summary markdown files remain strictly within <code>C:\Capston Project</code>. Blocks any relative directory traversing components (e.g., <code>..</code>).</div>
+                                    <span class="badge badge-success">PROTECTED</span>
+                                </div>
+                                <div class="security-rule-item">
+                                    <div class="rule-title">Subprocess Sanitization</div>
+                                    <div class="rule-desc">Cleans user inputs and sanitizes argument strings passed to the CLI tools, preventing code injection vectors during subprocess calls.</div>
+                                    <span class="badge badge-success">PROTECTED</span>
+                                </div>
+                                <div class="security-rule-item">
+                                    <div class="rule-title">Local Environment Isolation</div>
+                                    <div class="rule-desc">Runs entirely offline without credentials or keys, preventing outbound telemetry leakages or credentials thefts.</div>
+                                    <span class="badge badge-success">ISOLATED</span>
+                                </div>
+                                <div class="security-rule-item">
+                                    <div class="rule-title">Input Boundary Filtering</div>
+                                    <div class="rule-desc">Sanitizes request messages by filtering html-like tags and limits inputs to a maximum of 1,000 characters.</div>
+                                    <span class="badge badge-success">ACTIVE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Subprocess Execution Log</h3>
+                        </div>
+                        <div class="card-body log-container" id="security-execution-logs">
+                            <div class="log-entry log-system">Enforcing safe CLI execution limits...</div>
+                            <div class="log-entry log-info">[Subprocess Validate] CWD: C:\Capston Project</div>
+                            <div class="log-entry log-info">[Subprocess Validate] Allowed binaries: python cli_tool.py</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>
