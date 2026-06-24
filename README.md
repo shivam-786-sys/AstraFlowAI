@@ -20,6 +20,7 @@
 
 The platform leverages workflow graph concepts, local tool servers, and secure CLI skills to coordinate autonomous components capable of prioritizing, organizing, and scheduling tasks.
 
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/82ecc4ac-4029-44b0-822d-a7e7ba16bcb5" />
 <img width="1918" height="1012" alt="Image" src="https://github.com/user-attachments/assets/e4477e75-12ec-4f94-8f10-7917c129527b" />
 <img width="1906" height="1012" alt="Image" src="https://github.com/user-attachments/assets/9937cb62-5fda-465e-9dfd-c34edadd4959" />
 ### 🧠 AstraFlow allows users to:
